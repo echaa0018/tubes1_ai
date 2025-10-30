@@ -84,6 +84,8 @@ def main():
             GeneticAlgorithm.run_genetic_algorithm_experiments(file_path)
         elif algorithm_choice == "2":
             hill_climbing_menu(file_path)
+        elif algorithm_choice == "4":
+            SimulatedAnnealing.run_simulated_annealing_experiments(file_path)
         elif algorithm_choice == "3":
             print("bye")
             return
