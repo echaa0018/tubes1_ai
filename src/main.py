@@ -8,6 +8,7 @@ from input_manager import load_problem
 from state import State
 from algorithm.genetic_algorithm import GeneticAlgorithm
 from algorithm.hill_climbing import HillClimbing
+from algorithm.simulated_annealing import SimulatedAnnealing
 
 
 def hill_climbing_menu(file_path):
@@ -75,7 +76,8 @@ def main():
         print("Pilih algoritma local search:")
         print("1. Genetic Algorithm")
         print("2. Hill Climbing")
-        print("3. Exit Program")
+        print("3. Simulated Annealing")
+        print("4. Exit Program")
         
         algorithm_choice = input("Masukkan pilihan: ").strip()
         
@@ -84,9 +86,9 @@ def main():
             GeneticAlgorithm.run_genetic_algorithm_experiments(file_path)
         elif algorithm_choice == "2":
             hill_climbing_menu(file_path)
-        elif algorithm_choice == "4":
-            SimulatedAnnealing.run_simulated_annealing_experiments(file_path)
         elif algorithm_choice == "3":
+            SimulatedAnnealing.run_simulated_annealing_experiments(file_path)
+        elif algorithm_choice == "4":
             print("bye")
             return
         else:
