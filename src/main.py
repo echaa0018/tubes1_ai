@@ -51,8 +51,7 @@ def compare_all_algorithms(file_path):
 
 def main():
     print("=== PROGRAM LOCAL SEARCH ===")
-    print()
-    
+    print()    
     print("Pilih file problem:")
     print("1. problem.json")
     print("2. problem1.json")
@@ -69,7 +68,6 @@ def main():
     else:
         print("Pilihan tidak valid!")
         return
-    
     print()
     
     while True:
