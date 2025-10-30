@@ -7,6 +7,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from state import State, Container
 from input_manager import load_problem
 
+# coba commit aja test account :D
 class GeneticAlgorithm:
     def __init__(self, problem_file, population_size, mutation_rate, crossover_rate, generations):
         self.problem_file = problem_file

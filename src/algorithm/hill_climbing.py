@@ -27,7 +27,7 @@ class HillClimbing:
         self.best_state = self.current_state.copy()
         
         self.values = []
-        
+   
     def generate_successors(self, state):
         successors = []
         
