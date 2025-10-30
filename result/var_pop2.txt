@@ -1,0 +1,254 @@
+================================================================================
+HASIL MULTIPLE EXPERIMENTS - GENETIC ALGORITHM
+================================================================================
+Problem File: problem1.json
+Probabilitas Mutasi: 0.1
+Jumlah Eksperimen: 3
+================================================================================
+
+
+================================================================================
+EKSPERIMEN 1
+================================================================================
+
+Jumlah Populasi: 50
+Jumlah Generation: 100
+Probabilitas Mutasi: 0.1
+Durasi Proses Pencarian: 0.1178 detik
+
+Nilai Objective Function Awal: 1203.5
+Nilai Objective Function Akhir: 675.0
+Nilai Objective Function Maximum: 30100.00
+Rata-Rata Nilai Objective Function: 804.07
+
+
+--- STATE AWAL ---
+Total Kontainer: 7
+
+Kontainer 1 (Total: 157/150):
+  !!! OVER CAPACITY by 7 !!!
+  BRG014 (42)
+  BRG011 (80)
+  BRG005 (35)
+
+Kontainer 2 (Total: 128/150):
+  BRG008 (30)
+  BRG015 (58)
+  BRG003 (40)
+
+Kontainer 3 (Total: 90/150):
+  BRG012 (20)
+  BRG010 (25)
+  BRG007 (45)
+
+Kontainer 4 (Total: 125/150):
+  BRG001 (50)
+  BRG013 (75)
+
+Kontainer 5 (Total: 65/150):
+  BRG009 (65)
+
+Kontainer 6 (Total: 55/150):
+  BRG006 (55)
+
+Kontainer 7 (Total: 130/150):
+  BRG004 (70)
+  BRG002 (60)
+
+--- STATE AKHIR ---
+Total Kontainer: 6
+
+Kontainer 1 (Total: 132/150):
+  BRG010 (25)
+  BRG014 (42)
+  BRG009 (65)
+
+Kontainer 2 (Total: 145/150):
+  BRG004 (70)
+  BRG005 (35)
+  BRG003 (40)
+
+Kontainer 3 (Total: 130/150):
+  BRG002 (60)
+  BRG001 (50)
+  BRG012 (20)
+
+Kontainer 4 (Total: 150/150):
+  BRG008 (30)
+  BRG007 (45)
+  BRG013 (75)
+
+Kontainer 5 (Total: 138/150):
+  BRG011 (80)
+  BRG015 (58)
+
+Kontainer 6 (Total: 55/150):
+  BRG006 (55)
+
+
+================================================================================
+EKSPERIMEN 2
+================================================================================
+
+Jumlah Populasi: 75
+Jumlah Generation: 100
+Probabilitas Mutasi: 0.1
+Durasi Proses Pencarian: 0.1819 detik
+
+Nilai Objective Function Awal: 1351.5
+Nilai Objective Function Akhir: 675.0
+Nilai Objective Function Maximum: 30100.00
+Rata-Rata Nilai Objective Function: 753.81
+
+
+--- STATE AWAL ---
+Total Kontainer: 9
+
+Kontainer 1 (Total: 135/150):
+  BRG006 (55)
+  BRG011 (80)
+
+Kontainer 2 (Total: 50/150):
+  BRG012 (20)
+  BRG008 (30)
+
+Kontainer 3 (Total: 50/150):
+  BRG001 (50)
+
+Kontainer 4 (Total: 25/150):
+  BRG010 (25)
+
+Kontainer 5 (Total: 153/150):
+  !!! OVER CAPACITY by 3 !!!
+  BRG005 (35)
+  BRG002 (60)
+  BRG015 (58)
+
+Kontainer 6 (Total: 107/150):
+  BRG009 (65)
+  BRG014 (42)
+
+Kontainer 7 (Total: 145/150):
+  BRG013 (75)
+  BRG004 (70)
+
+Kontainer 8 (Total: 45/150):
+  BRG007 (45)
+
+Kontainer 9 (Total: 40/150):
+  BRG003 (40)
+
+--- STATE AKHIR ---
+Total Kontainer: 6
+
+Kontainer 1 (Total: 140/150):
+  BRG003 (40)
+  BRG004 (70)
+  BRG008 (30)
+
+Kontainer 2 (Total: 100/150):
+  BRG005 (35)
+  BRG009 (65)
+
+Kontainer 3 (Total: 102/150):
+  BRG014 (42)
+  BRG002 (60)
+
+Kontainer 4 (Total: 150/150):
+  BRG013 (75)
+  BRG001 (50)
+  BRG010 (25)
+
+Kontainer 5 (Total: 135/150):
+  BRG006 (55)
+  BRG011 (80)
+
+Kontainer 6 (Total: 123/150):
+  BRG007 (45)
+  BRG012 (20)
+  BRG015 (58)
+
+
+================================================================================
+EKSPERIMEN 3
+================================================================================
+
+Jumlah Populasi: 100
+Jumlah Generation: 100
+Probabilitas Mutasi: 0.1
+Durasi Proses Pencarian: 0.2443 detik
+
+Nilai Objective Function Awal: 1375.0
+Nilai Objective Function Akhir: 675.0
+Nilai Objective Function Maximum: 30625.00
+Rata-Rata Nilai Objective Function: 830.53
+
+
+--- STATE AWAL ---
+Total Kontainer: 10
+
+Kontainer 1 (Total: 25/150):
+  BRG010 (25)
+
+Kontainer 2 (Total: 133/150):
+  BRG013 (75)
+  BRG015 (58)
+
+Kontainer 3 (Total: 40/150):
+  BRG003 (40)
+
+Kontainer 4 (Total: 0/150):
+
+Kontainer 5 (Total: 85/150):
+  BRG001 (50)
+  BRG005 (35)
+
+Kontainer 6 (Total: 70/150):
+  BRG004 (70)
+
+Kontainer 7 (Total: 142/150):
+  BRG006 (55)
+  BRG014 (42)
+  BRG007 (45)
+
+Kontainer 8 (Total: 20/150):
+  BRG012 (20)
+
+Kontainer 9 (Total: 110/150):
+  BRG008 (30)
+  BRG011 (80)
+
+Kontainer 10 (Total: 125/150):
+  BRG009 (65)
+  BRG002 (60)
+
+--- STATE AKHIR ---
+Total Kontainer: 6
+
+Kontainer 1 (Total: 147/150):
+  BRG008 (30)
+  BRG010 (25)
+  BRG014 (42)
+  BRG001 (50)
+
+Kontainer 2 (Total: 150/150):
+  BRG011 (80)
+  BRG004 (70)
+
+Kontainer 3 (Total: 145/150):
+  BRG002 (60)
+  BRG009 (65)
+  BRG012 (20)
+
+Kontainer 4 (Total: 150/150):
+  BRG005 (35)
+  BRG003 (40)
+  BRG013 (75)
+
+Kontainer 5 (Total: 113/150):
+  BRG015 (58)
+  BRG006 (55)
+
+Kontainer 6 (Total: 45/150):
+  BRG007 (45)
+
