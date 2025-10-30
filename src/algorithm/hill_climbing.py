@@ -192,7 +192,7 @@ class HillClimbing:
             print(f"Plot saved to: {filepath}")
         return fig
     
-    def print_solution(self, state, title):
+    def printhasil(self, state, title):
         print(f"\n--- {title} ---")
         print(f"Total Kontainer Digunakan: {len(state.list_container)}")
         print(f"Nilai Objektif (Penalti): {state.count_penalty()}")
@@ -275,7 +275,7 @@ class HillClimbing:
             if hasattr(hc_run, 'restarts'): result['restarts'] = hc_run.restarts
             
             experiments_results.append(result)
-            hc_run.print_solution(final_state, f"Eksperimen {i+1}")
+            hc_run.printhasil(final_state, f"Eksperimen {i+1}")
             print(f"Durasi: {duration:.4f} detik")
 
         HillClimbing.plott(experiments_results, algorithm_type, save=True)
