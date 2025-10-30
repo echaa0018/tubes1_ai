@@ -96,7 +96,7 @@ class HillClimbing:
             best_successor = min(successors, key=lambda state: state.count_penalty())
             if best_successor.count_penalty() < self.current_state.count_penalty():
                 self.current_state = best_successor
-                self.sideways_moves = 0  # Reset sideways counter
+                self.sideways_moves = 0  
                 self.values.append(self.current_state.count_penalty())
                 if self.current_state.count_penalty() < self.best_state.count_penalty():
                     self.best_state = self.current_state.copy()
@@ -136,14 +136,14 @@ class HillClimbing:
         self.restarts = 0
         best_overall_state = None
         best_overall_penalty = float('inf')
+        self.iterations_per_restart = []
         per_restart_final_penalties = []
-        iterations_per_restart = []
 
         for _ in range(max_restarts):
             self.restarts += 1
             temp_hc = HillClimbing(self.problem_file, 'steepest')
             _final_state, _ = temp_hc.hcSteepest(max_iterations=max_iterations_per_restart, save_plot=False)
-            iterations_per_restart.append(temp_hc.iterations)
+            self.iterations_per_restart.append(temp_hc.iterations)
 
             final_penalty = _final_state.count_penalty()
             print(f"Final Penalty: {final_penalty}")
@@ -155,9 +155,9 @@ class HillClimbing:
         self.current_state = best_overall_state
         self.best_state = best_overall_state.copy()
         self.values = per_restart_final_penalties
-        self.iterations = len(iterations_per_restart)
+        self.iterations = sum(self.iterations_per_restart)
 
-        print(f"Total Restarts: {self.restarts}, Iterations per Restart: {iterations_per_restart}")
+        print(f"Total Restarts: {self.restarts}, Iterations per Restart: {self.iterations_per_restart}")
 
         fig = self.plot_progress("Random Restart Final Penalty per Restart", save=save_plot)
         return self.current_state, fig
@@ -218,14 +218,29 @@ class HillClimbing:
         colors = ['b', 'g', 'r']
         
         for i, result in enumerate(results):
-            values = result['values']
-            x_vals = list(range(1, len(values) + 1))
-            ax.plot(x_vals, values, linestyle='-', marker='o', color=colors[i % len(colors)], linewidth=1.5, markersize=4, label=f"Run {i+1}")
+            if algorithm_type == 'random_restart':                
+                num_runs = len(results)
+                bar_width = 0.8 / num_runs
+                
+                iterations_per_restart = result['iterations_per_restart']
+                num_restarts = len(iterations_per_restart)
+                
+                base_x = list(range(1, num_restarts + 1))
+                bar_positions = [x + i * bar_width for x in base_x]
+                
+                ax.bar(bar_positions, iterations_per_restart, width=bar_width, color=colors[i % len(colors)], label=f"Run {i+1}")
+                
+                ax.set_xticks([r + bar_width * (num_runs - 1) / 2 for r in base_x])
+                ax.set_xticklabels(base_x)
+            else:
+                values = result['values']
+                x_vals = list(range(1, len(values) + 1))
+                ax.plot(x_vals, values, linestyle='-', marker='o', color=colors[i % len(colors)], linewidth=1.5, markersize=4, label=f"Run {i+1}")
 
         if algorithm_type == 'random_restart':
-            ax.set_title(f'Random Restart - Final Penalty per Restart (3 Runs)')
-            ax.set_xlabel('Restart')
-            ax.set_ylabel('Final Penalty')
+            ax.set_title(f'Random Restart - Iterations Until Stop per Restart')
+            ax.set_xlabel('Restart Number (Grouped by Run)')
+            ax.set_ylabel('Iterations Until Stop')
         else:
             ax.set_title(f'{algorithm_type.replace("_", " ").title()} - Objective Function (3 Runs)')
             ax.set_xlabel('Iteration')
@@ -270,6 +285,7 @@ class HillClimbing:
                 'duration': duration,
                 'iterations': hc_run.iterations,
                 'values': hc_run.values.copy(),
+                'iterations_per_restart': hc_run.iterations_per_restart.copy() if hasattr(hc_run, 'iterations_per_restart') else []
             }
             if hasattr(hc_run, 'sideways_moves'): result['sideways_moves'] = hc_run.sideways_moves
             if hasattr(hc_run, 'restarts'): result['restarts'] = hc_run.restarts
