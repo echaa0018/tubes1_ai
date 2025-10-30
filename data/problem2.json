@@ -1,5 +1,5 @@
 {
-  "kapasitas_kontainer": 1000,
+  "kapasitas_kontainer": 100,
   "barang": [
     { "id": "BRG001", "ukuran": 51 },
     { "id": "BRG002", "ukuran": 62 },
@@ -30,26 +30,6 @@
     { "id": "BRG027", "ukuran": 66 },
     { "id": "BRG028", "ukuran": 48 },
     { "id": "BRG029", "ukuran": 80 },
-    { "id": "BRG030", "ukuran": 22 },
-    { "id": "BRG031", "ukuran": 73 },
-    { "id": "BRG032", "ukuran": 55 },
-    { "id": "BRG033", "ukuran": 37 },
-    { "id": "BRG034", "ukuran": 98 },
-    { "id": "BRG035", "ukuran": 41 },
-    { "id": "BRG036", "ukuran": 64 },
-    { "id": "BRG037", "ukuran": 26 },
-    { "id": "BRG038", "ukuran": 89 },
-    { "id": "BRG039", "ukuran": 50 },
-    { "id": "BRG040", "ukuran": 72 },
-    { "id": "BRG041", "ukuran": 33 },
-    { "id": "BRG042", "ukuran": 95 },
-    { "id": "BRG043", "ukuran": 47 },
-    { "id": "BRG044", "ukuran": 69 },
-    { "id": "BRG045", "ukuran": 21 },
-    { "id": "BRG046", "ukuran": 84 },
-    { "id": "BRG047", "ukuran": 36 },
-    { "id": "BRG048", "ukuran": 58 },
-    { "id": "BRG049", "ukuran": 79 },
-    { "id": "BRG050", "ukuran": 42 }
+    { "id": "BRG030", "ukuran": 22 }
   ]
 }

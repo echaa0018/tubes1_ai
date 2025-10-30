@@ -212,40 +212,73 @@ class HillClimbing:
                 print(f"  {item['id']} ({item['ukuran']})")
     
     
+    @staticmethod
+    def plott(results, algorithm_type, save=True):
+        fig, ax = plt.subplots(figsize=(10, 6))
+        colors = ['b', 'g', 'r']
+        
+        for i, result in enumerate(results):
+            values = result['values']
+            x_vals = list(range(1, len(values) + 1))
+            ax.plot(x_vals, values, linestyle='-', marker='o', color=colors[i % len(colors)], linewidth=1.5, markersize=4, label=f"Run {i+1}")
+
+        if algorithm_type == 'random_restart':
+            ax.set_title(f'Random Restart - Final Penalty per Restart (3 Runs)')
+            ax.set_xlabel('Restart')
+            ax.set_ylabel('Final Penalty')
+        else:
+            ax.set_title(f'{algorithm_type.replace("_", " ").title()} - Objective Function (3 Runs)')
+            ax.set_xlabel('Iteration')
+            ax.set_ylabel('Penalty Value')
+        
+        ax.legend()
+        ax.grid(True, linestyle='--', alpha=0.6)
+        plt.tight_layout()
+
+        if save:
+            plot_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'result', 'plot')
+            if not os.path.exists(plot_dir):
+                os.makedirs(plot_dir)
+            filename = f"hill_{algorithm_type}.png"
+            filepath = os.path.join(plot_dir, filename)
+            plt.savefig(filepath, dpi=300, bbox_inches='tight')
+            print(f"Plot disimpan ke: {filepath}")
+        return fig
 
     def run_hill_climbing_experiments(problem_file, algorithm_type="steepest"):
         print(f"=== HILL CLIMBING EXPERIMENTS - {algorithm_type.upper()} ===")
         experiments_results = []
-        start_time = time.time()
-        hc = HillClimbing(problem_file, algorithm_type)
-        if algorithm_type == "steepest":
-            final_state, _ = hc.hcSteepest(save_plot=True)
-        elif algorithm_type == "sideways":
-            final_state, _ = hc.hcSideways(save_plot=True)
-        elif algorithm_type == "stochastic":
-            final_state, _ = hc.hcStochastic(save_plot=True)
-        elif algorithm_type == "random_restart":
-            final_state, _ = hc.hcRandomRestart(save_plot=True)
-        else:
-            raise ValueError(f"Unknown algorithm type: {algorithm_type}")
-        duration = time.time() - start_time
-        experiment_result = {
-            'experiment_num': 1,
-            'algorithm_type': algorithm_type,
-            'initial_state': hc.original_state.copy(),
-            'final_state': final_state,
-            'duration': duration,
-            'iterations': hc.iterations,
-            'values': hc.values.copy(),
-            'plot': None
-        }
-        if hasattr(hc, 'sideways_moves'):
-            experiment_result['sideways_moves'] = hc.sideways_moves
-        if hasattr(hc, 'restarts'):
-            experiment_result['restarts'] = hc.restarts
-        experiments_results.append(experiment_result)
-        hc.print_solution(final_state, f"Eksperimen 1")
-        print(f"Durasi: {duration:.4f} detik")
+        final_state = None 
+
+        num_runs = 3
+        for i in range(num_runs):
+            print(f"\n--- Running Experiment {i+1}/{num_runs} for {algorithm_type.upper()} ---")
+            start_time = time.time()
+            hc_run = HillClimbing(problem_file, algorithm_type)
+            if algorithm_type == "steepest": final_state, _ = hc_run.hcSteepest(save_plot=False)
+            elif algorithm_type == "sideways": final_state, _ = hc_run.hcSideways(save_plot=False)
+            elif algorithm_type == "stochastic": final_state, _ = hc_run.hcStochastic(save_plot=False)
+            elif algorithm_type == "random_restart": final_state, _ = hc_run.hcRandomRestart(save_plot=False)
+            
+            duration = time.time() - start_time
+            
+            result = {
+                'experiment_num': i + 1,
+                'algorithm_type': algorithm_type,
+                'initial_state': hc_run.original_state.copy(),
+                'final_state': final_state,
+                'duration': duration,
+                'iterations': hc_run.iterations,
+                'values': hc_run.values.copy(),
+            }
+            if hasattr(hc_run, 'sideways_moves'): result['sideways_moves'] = hc_run.sideways_moves
+            if hasattr(hc_run, 'restarts'): result['restarts'] = hc_run.restarts
+            
+            experiments_results.append(result)
+            hc_run.print_solution(final_state, f"Eksperimen {i+1}")
+            print(f"Durasi: {duration:.4f} detik")
+
+        HillClimbing.plott(experiments_results, algorithm_type, save=True)
         return experiments_results
     
     @staticmethod

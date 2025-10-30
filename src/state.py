@@ -30,9 +30,9 @@ class State:
             count += 1
             total_size = sum(item['ukuran'] for item in container.item_list)
             if total_size > container.capacity:
-                penalty += (total_size - container.capacity)*10000
+                penalty += (total_size - container.capacity)*50
             else :
-                penalty += (container.capacity - total_size)
+                penalty += (container.capacity - total_size)*0.5
         penalty += count * 100
         return penalty
     
