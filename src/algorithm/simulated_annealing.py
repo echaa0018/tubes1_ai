@@ -171,6 +171,8 @@ class SimulatedAnnealing:
                 print(f"  !!! OVER CAPACITY sebanyak {total_size - capacity} !!!")
             for item in container.item_list:
                 print(f"  {item['id']} ({item['ukuran']})")
+
+                
     
     @staticmethod
     def run_simulated_annealing_experiments(file_path: str):
@@ -220,6 +222,7 @@ class SimulatedAnnealing:
             print(f"Skor Akhir: {result['final_score']:.2f}")
             print(f"Durasi: {result['duration']:.4f} detik")
             print(f"Iterasi: {result['iterations']}")
+            print(f"Jumlah Stuck: {result['stuck_iterations']}")
             SimulatedAnnealing.print_solution(final_state, f"Solusi Akhir Eksperimen {i + 1}")
         
         # Ringkasan
