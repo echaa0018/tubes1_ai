@@ -21,9 +21,13 @@ class GeneticAlgorithm:
         self.problem_path = os.path.join(project_root, 'data', f'{self.problem_file}.json')
         self.all_items, self.capacity = load_problem(self.problem_path)
         self.population = []
-        self.history = {'best_objective': []}
+        self.history = {
+            'best_objective': [],
+            'max_objective': [],
+            'avg_objective': []
+        }
 
-    def _initialize_population(self):
+    def initialize_population(self):
         self.population = []
         for _ in range(self.population_size):
             state = State()
@@ -35,7 +39,7 @@ class GeneticAlgorithm:
         tournament_contenders.sort(key=lambda x: x[1])
         return tournament_contenders[0][0]
 
-    def _crossover(self, parent1, parent2):
+    def crossover(self, parent1, parent2):
         child = State()
         p1_containers = parent1.list_container
         p2_containers = parent2.list_container
@@ -54,10 +58,10 @@ class GeneticAlgorithm:
             child_containers.append(new_c)
 
         child.list_container = child_containers
-        self._repair(child)
+        self.repair(child)
         return child
 
-    def _repair(self, state):
+    def repair(self, state):
         items_in_state = set()
 
         for container in state.list_container:
@@ -86,7 +90,7 @@ class GeneticAlgorithm:
         
         state.list_container = [c for c in state.list_container if c.item_list]
 
-    def _mutate(self, state):
+    def mutate(self, state):
         if random.random() > self.mutation_rate:
             return
         
@@ -126,22 +130,34 @@ class GeneticAlgorithm:
 
     def run(self):
         start_time = time.time()
-        self._initialize_population()
+        self.initialize_population()
         initial_best_state = min(self.population, key=lambda s: s.count_penalty()).copy()
         best_state_overall = initial_best_state
         best_penalty_overall = best_state_overall.count_penalty()
+        max_penalty_overall = best_penalty_overall
 
         for gen in range(self.generations):
             self.population_with_penalty = []
+            penalties = []
             for state in self.population:
                 penalty = state.count_penalty()
                 self.population_with_penalty.append((state, penalty))
+                penalties.append(penalty)
                 if penalty < best_penalty_overall:
                     best_penalty_overall = penalty
                     best_state_overall = state.copy()
 
-            best_objective = best_state_overall.count_penalty()
+            best_objective = min(penalties)
+            max_objective = max(penalties)
+            avg_objective = sum(penalties) / len(penalties)
+            
+            if max_objective > max_penalty_overall:
+                max_penalty_overall = max_objective
+            
             self.history['best_objective'].append(best_objective)
+            self.history['max_objective'].append(max_objective)
+            self.history['avg_objective'].append(avg_objective)
+            
             new_population = []
             new_population.append(best_state_overall.copy())
 
@@ -149,12 +165,13 @@ class GeneticAlgorithm:
                 parent1 = self._selection()
                 parent2 = self._selection()
                 if random.random() < self.crossover_rate:
-                    child = self._crossover(parent1, parent2)
+                    child = self.crossover(parent1, parent2)
                 else:
                     child = parent1.copy()
-                self._mutate(child)
+                self.mutate(child)
                 new_population.append(child)
             self.population = new_population
+        self.history['max_objective_overall'] = max_penalty_overall
 
         end_time = time.time()
         duration = end_time - start_time
@@ -188,13 +205,14 @@ class GeneticAlgorithm:
         
         if not os.path.exists(plot_dir):
             os.makedirs(plot_dir)
-        
+
         plt.figure(figsize=(10, 6))
         
         for label, history in experiments_data:
-            plt.plot(history['best_objective'], label=label, linewidth=2)
+            plt.plot(history['best_objective'], label=f"{label} (Best)", linewidth=2)
+            plt.plot(history['avg_objective'], label=f"{label} (Avg)", linewidth=2, linestyle='--', alpha=0.7)
         
-        plt.title('Perbandingan Nilai Objektif vs. Generasi', fontsize=14, fontweight='bold')
+        plt.title('Perbandingan Nilai Objektif (Best & Average) vs. Generasi', fontsize=14, fontweight='bold')
         plt.xlabel('Generasi')
         plt.ylabel('Nilai Objektif (Penalti)')
         plt.legend(loc='best')
@@ -202,10 +220,10 @@ class GeneticAlgorithm:
         plt.tight_layout()
         
         timestamp = time.strftime("%Y%m%d_%H%M%S")
-        filename = f"comparison_plot_{timestamp}.png"
+        filename = f"ga_plot_{timestamp}.png"
         filepath = os.path.join(plot_dir, filename)
         plt.savefig(filepath, dpi=300, bbox_inches='tight')
-        print(f"\nPlot berhasil disimpan ke: {filepath}")
+        print(f"\nPlot perbandingan disimpan ke: {filepath}")
         
         plt.show()
         plt.close()
@@ -214,12 +232,16 @@ class GeneticAlgorithm:
         print("RINGKASAN PERBANDINGAN EKSPERIMEN")
         print("="*80)
         for label, history in experiments_data:
-            final_obj = history['best_objective'][-1]
-            initial_obj = history['best_objective'][0]
+            best_pen = history['best_objective'][-1]
+            max_pen = history.get('max_objective_overall', max(history['max_objective']))
+            avg_pen = history['avg_objective'][-1]
+            initial_pen = history['best_objective'][0]
             
             print(f"\n{label}:")
-            print(f"  Nilai Objektif Awal: {initial_obj:.2f}")
-            print(f"  Nilai Objektif Akhir: {final_obj:.2f}")
+            print(f"  Nilai Objektif Awal: {initial_pen:.2f}")
+            print(f"  Nilai Objektif Akhir: {best_pen:.2f}")
+            print(f"  Nilai Objektif Maximum: {max_pen:.2f}")
+            print(f"  Rata-Rata Nilai Objektif: {avg_pen:.2f}")
 
     @staticmethod
     def save_ga(experiments_results, file_path, mutation_rate):
@@ -265,11 +287,16 @@ class GeneticAlgorithm:
                     # objective function
                     initial_obj = result['initial_state'].count_penalty()
                     final_obj = result['final_state'].count_penalty()
+                    history = result['history']
+                    max_obj = history.get('max_objective_overall', max(history['max_objective']))
+                    avg_obj = history['avg_objective'][-1]
                     f.write(f"Nilai Objective Function Awal: {initial_obj}\n")
                     f.write(f"Nilai Objective Function Akhir: {final_obj}\n")
+                    f.write(f"Nilai Objective Function Maximum: {max_obj:.2f}\n")
+                    f.write(f"Rata-Rata Nilai Objective Function: {avg_obj:.2f}\n\n")
                     
                     # state awal
-                    f.write(f"--- STATE AWAL ---\n")
+                    f.write(f"\n--- STATE AWAL ---\n")
                     f.write(f"Total Kontainer: {len(result['initial_state'].list_container)}\n")
                     for j, container in enumerate(result['initial_state'].list_container):
                         total_size = container.total_size()

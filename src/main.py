@@ -12,8 +12,6 @@ from algorithm.genetic_algorithm import GeneticAlgorithm
 def main():
     print("=== PROGRAM LOCAL SEARCH ===")
     print()
-    
-    # 1. User menginput file problem
     print("Pilih file problem:")
     print("1. problem.json")
     print("2. problem1.json")
@@ -33,9 +31,7 @@ def main():
     
     print()
     
-    # Loop untuk menu algoritma agar user bisa kembali ke menu
     while True:
-        # 2. User menginput algoritma local search
         print(f"\n{'='*80}")
         print("Pilih algoritma local search:")
         print("1. Genetic Algorithm")
