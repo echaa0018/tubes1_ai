@@ -270,6 +270,7 @@ class HillClimbing:
             print(f"\n--- Running Experiment {i+1}/{num_runs} for {algorithm_type.upper()} ---")
             start_time = time.time()
             hc_run = HillClimbing(problem_file, algorithm_type)
+            hc_run.printhasil(hc_run.original_state, f"Initial State - Eksperimen {i+1}")
             if algorithm_type == "steepest": final_state, _ = hc_run.hcSteepest(save_plot=False)
             elif algorithm_type == "sideways": final_state, _ = hc_run.hcSideways(save_plot=False)
             elif algorithm_type == "stochastic": final_state, _ = hc_run.hcStochastic(save_plot=False)
@@ -291,7 +292,7 @@ class HillClimbing:
             if hasattr(hc_run, 'restarts'): result['restarts'] = hc_run.restarts
             
             experiments_results.append(result)
-            hc_run.printhasil(final_state, f"Eksperimen {i+1}")
+            hc_run.printhasil(final_state, f"Final State - Eksperimen {i+1}")
             print(f"Durasi: {duration:.4f} detik")
 
         HillClimbing.plott(experiments_results, algorithm_type, save=True)
